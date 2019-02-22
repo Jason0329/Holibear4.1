@@ -1,0 +1,34 @@
+﻿@*@model Nop.Plugin.Widgets.NivoSlider.Models.PublicInfoModel
+
+    @{
+        var pictureUrl = ViewData["pictureUrl"]?.ToString() ?? "";
+        var link = ViewData["link"]?.ToString() ?? "";
+        var dataTransition = ViewData["dataTransition"]?.ToString() ?? "";
+        var text = ViewData["text"]?.ToString() ?? "";
+        var alttext = ViewData["alttext"]?.ToString() ?? "";
+
+        if (!string.IsNullOrEmpty(pictureUrl))
+        {
+            if (!string.IsNullOrEmpty(link))
+            {
+                <a href="@link" aria-label="@alttext">
+                    <img src="@pictureUrl" data-thumb="@pictureUrl" data-transition="@dataTransition" alt="@alttext" title="@text" />
+                </a>
+            }
+            else
+            {
+                <img src="@pictureUrl" data-thumb="@pictureUrl" data-transition="@dataTransition" alt="@alttext" title="@text" />
+            }
+        }
+    }*@
+
+@*@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+    @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+    @addTagHelper *, Nop.Web.Framework
+
+    @using Microsoft.AspNetCore.Mvc.ViewFeatures
+    @using Nop.Web.Framework.UI
+    @using Nop.Web.Framework.Extensions
+    @using System.Text.Encodings.Web*@
+
+hihi

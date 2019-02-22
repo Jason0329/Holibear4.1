@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Widgets",
+  "FriendlyName": "Accept Reject Submit",
+  "SystemName": "Widgets.AcceptRejectSubmit",
+  "Version": "1.00",
+  "SupportedVersions": [ "4.10" ],
+  "Author": "Jason",
+  "DisplayOrder": 1,
+  "FileName": "Holibear.Widget.AcceptRejectSubmit.dll",
+  "Description": "Holibear.Widget.AcceptRejectSubmit"
+}

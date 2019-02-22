@@ -1,0 +1,106 @@
+﻿@using Nop.Core
+@using Nop.Services.Configuration
+@using Nop.Services.Orders;
+@using Nop.Services.Security;
+
+@inject ISettingService settingService
+@inject IStoreContext storeContext
+@inject IWorkContext workContext
+@inject IPermissionService permissionService
+
+@{
+    Layout = "_Root.Head";
+
+    var controllerName = Url.ActionContext.RouteData.Values["controller"].ToString();
+    bool isHomePage = controllerName.Equals("home", StringComparison.InvariantCultureIgnoreCase);
+
+    int storeId = storeContext.CurrentStore.Id;
+
+    string layoutDesign = settingService.GetSettingByKey("elementthemesettings.layout", "earth-theme", storeId, true);
+    string layoutVariant = settingService.GetSettingByKey("elementthemesettings.variant", "variant-1", storeId, true);
+
+    var wishlistEnabled = permissionService.Authorize(StandardPermissionProvider.EnableWishlist);
+    var shoppingCartEnabled = permissionService.Authorize(StandardPermissionProvider.EnableShoppingCart);
+
+    var customer = workContext.CurrentCustomer;
+
+    var shoppingCartItems = workContext.CurrentCustomer.ShoppingCartItems
+                            .Where(sci => sci.ShoppingCartType == Nop.Core.Domain.Orders.ShoppingCartType.ShoppingCart)
+                            .LimitPerStore(storeContext.CurrentStore.Id).Sum(item => item.Quantity).ToString();
+
+    var wishlistItems = workContext.CurrentCustomer.ShoppingCartItems
+                        .Where(sci => sci.ShoppingCartType == Nop.Core.Domain.Orders.ShoppingCartType.Wishlist)
+                        .LimitPerStore(storeContext.CurrentStore.Id).Sum(item => item.Quantity).ToString();
+
+    ViewBag.LayoutDesign = layoutDesign;
+    ViewBag.LayoutVariant = layoutVariant;
+    ViewBag.IsHomePage = isHomePage;
+    ViewBag.WishlistEnabled = wishlistEnabled;
+    ViewBag.WishlistItems = wishlistItems;
+    ViewBag.ShoppingCartEnabled = shoppingCartEnabled;
+    ViewBag.ShoppingCartItems = shoppingCartItems;
+}
+@await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.BodyStartHtmlTagAfter })
+@await Html.PartialAsync("_Notifications")
+@await Html.PartialAsync("_JavaScriptDisabledWarning")
+@await Html.PartialAsync("_OldInternetExplorerWarning")
+
+<div class="master-wrapper-page">
+    @await Component.InvokeAsync("AdminHeaderLinks")
+    <div class="master-header-wrapper">
+        
+        @if (layoutDesign == "earth-theme")
+        {
+            if (layoutVariant == "variant-1")
+            {
+                @await Html.PartialAsync("_EarthVariant1")
+            }
+            else
+            {
+                @await Html.PartialAsync("_EarthVariant2")
+            }
+        }
+        else if (layoutDesign == "air-theme")
+        {
+            if (layoutVariant == "variant-1")
+            {
+                @await Html.PartialAsync("_AirVariant1")
+            }
+            else
+            {
+                @await Html.PartialAsync("_AirVariant2")
+            }
+        }
+    </div>
+    <script type="text/javascript" asp-location="Footer" >
+            AjaxCart.init(false, '.shopping-cart-link .cart-qty', '.wishlist-qty', '#flyout-cart');
+    </script>
+    <div class="overlayOffCanvas"></div>
+    @if (isHomePage)
+    {
+        @await Component.InvokeAsync("Widget", new { widgetZone = "home_page_main_slider" })
+    }
+    
+    @if (layoutDesign == "air-theme" && layoutVariant == "variant-2" && isHomePage)
+    {
+        <div class="search-box store-search-box static">
+            @await Component.InvokeAsync("SearchBox")
+        </div>
+    }
+
+    <div class="master-wrapper-content">
+        @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.ContentBefore })
+
+        @if (IsSectionDefined("Breadcrumb"))
+        {
+            @RenderSection("Breadcrumb")
+        }
+        <div class="master-column-wrapper">
+            @RenderBody()
+        </div>
+        @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.ContentAfter })
+    </div>
+    @await Component.InvokeAsync("Footer")
+</div>
+@await Component.InvokeAsync("EuCookieLaw")
+@await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.BodyEndHtmlTagBefore })

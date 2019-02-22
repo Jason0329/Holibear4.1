@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+ <PropertyGroup>
+   <TargetFramework>netcoreapp2.1</TargetFramework>
+ </PropertyGroup>  
+ <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+   <OutputPath>..\..\Presentation\Nop.Web\Plugins\Holibear.Widget.AcceptRejectSubmit</OutputPath>
+   <OutDir>$(OutputPath)</OutDir>
+ </PropertyGroup>
+ <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+   <OutputPath>..\..\Presentation\Nop.Web\Plugins\Holibear.Widget.AcceptRejectSubmit</OutputPath>
+   <OutDir>$(OutputPath)</OutDir>
+ </PropertyGroup>
+ <!-- This target execute after "Build" target -->
+ <Target Name="NopTarget" AfterTargets="Build">
+   <!-- Delete unnecessary libraries from plugins path -->
+   <MSBuild Projects="$(MSBuildProjectDirectory)\..\..\Build\ClearPluginAssemblies.proj" Properties="PluginPath=$(MSBuildProjectDirectory)\$(OutDir)" Targets="NopClear" />
+ </Target>
+ <ItemGroup>
+   <None Remove="Views\_AcceotRejectSubmitButton.cshtml" />
+ </ItemGroup>
+ <ItemGroup>
+   <Content Include="Views\_AcceotRejectSubmitButton.cshtml">
+     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+   </Content>
+ </ItemGroup>
+ <ItemGroup>
+   <ProjectReference Include="..\..\Libraries\Nop.Core\Nop.Core.csproj" />
+   <ProjectReference Include="..\..\Libraries\Nop.Services\Nop.Services.csproj" />
+ </ItemGroup>
+ <ItemGroup>
+   <None Update="logo.jpg">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </None>
+   <None Update="Notes.txt">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </None>
+   <None Update="plugin.json">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </None>
+ </ItemGroup>
+ <ItemGroup>
+   <Folder Include="Infrastructure\" />
+ </ItemGroup>
+ <ItemGroup>
+   <Reference Include="Nop.Web.Framework">
+     <HintPath>..\..\Presentation\Nop.Web.Framework\bin\Release\netcoreapp2.1\Nop.Web.Framework.dll</HintPath>
+   </Reference>
+ </ItemGroup>
+</Project>
