@@ -1,0 +1,125 @@
+﻿<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<style>
+    #AcceptButton {
+        background-color: #44c767;
+    }
+
+    #RejectButton ,#RejectButtonSend {
+        background-color: red;
+    }
+
+    #rejectComment  {
+        padding: 5px;
+        font-size: 16px;
+        border-width: 1px;
+        border-color: #f3f3f3;
+        background-color: #ef6442;
+        color: #000000;
+        border-style: solid;
+        border-radius: 8px;
+        box-shadow: 0px 0px 5px rgba(66,66,66,.75);
+        text-shadow: 0px 0px 5px rgba(66,66,66,.75);
+    }
+
+    .rejectComment {
+        display: none;
+    }
+
+    .css-input:focus {
+        outline: none;
+    }
+
+    .acceptRejectButtonGroup {
+        width: 100%;
+        float: left;
+    }
+
+    .AcceptRejectButton {
+        -moz-border-radius: 11px;
+        -webkit-border-radius: 11px;
+        border-radius: 11px;
+        border: 1px solid #18ab29;
+        display: inline-block;
+        cursor: pointer;
+        color: #ffffff;
+        font-family: Arial;
+        font-size: 17px;
+        padding: 16px 31px;
+        text-decoration: none;
+        text-shadow: 0px 1px 0px #2f6627;
+    }
+
+    #AcceptButton:hover {
+        background-color: #5cbf2a;
+    }
+
+    #AcceptButton:active {
+        position: relative;
+        top: 1px;
+    }
+
+</style>
+</head>
+
+<body>
+    <script>
+
+
+        $(document).ready(
+            function () {
+
+                $('#AcceptButton').click(function () {
+
+                    let path = window.location.href;
+                    let id = path.split('/')[path.split('/').length-1];
+                    let orderStatus = { "OrderId":id,"OrderStatus": "Complete", "OrderComment": "" }
+
+                    $.ajax({
+                        url: "http://localhost:15536/WidgetsAcceptRejectButton/OrderStatusUpdate",
+                        contentType: 'application/json; charset=UTF-8',
+                        dataType: "json",
+                        data: { orderStatus: JSON.stringify(orderStatus) }
+                    }).done(function () {
+                        alert('great');
+
+
+                    });
+                });
+
+                $('#RejectButton').click(function () {
+
+                    $('.rejectComment').show();
+
+
+                });
+
+                $('#RejectButtonSend').click(function () {
+
+                    let orderStatus = {
+                        "OrderStatus": "NotComplete", "OrderComment": $('#rejectComment').val()
+                    }
+
+                    $.ajax({
+                        url: "WidgetsAcceptRejectButton/OrderStatusUpdate",
+                        data: { orderStatus: JSON.stringify(orderStatus) }
+                    }).done(function () {
+                        alert('great');
+                    });
+                });
+            }
+        );
+    </script>
+
+
+    <div>
+        <div class="acceptRejectButtonGroup">
+            <button id="AcceptButton" class="AcceptRejectButton">Accept</button>
+            <button id="RejectButton" class="AcceptRejectButton">Reject</button>
+        </div>
+        <div class="rejectComment">
+            <textarea name="rejectComment" cols="40" rows="5" type="text" id="rejectComment"></textarea>
+            <button id="RejectButtonSend" class="AcceptRejectButton">Reject Comment Submit</button>
+        </div>
+    </div>
+</body>

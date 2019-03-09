@@ -1,10 +1,10 @@
 ﻿using Nop.Core.Plugins;
 using Nop.Services.Cms;
 using Nop.Services.Logging;
+using Nop.Web.Framework.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Nop.Web.Framework.Infrastructure;
 
 namespace Holibear.Widget.AcceptRejectSubmit
 {
@@ -23,7 +23,7 @@ namespace Holibear.Widget.AcceptRejectSubmit
 
         public IList<string> GetWidgetZones()
         {
-            return new List<string> { "Holibear.AcceptRejectButton" };
+            return new List<string> { PublicWidgetZones.OrderDetailsPageAfterproducts };
         }
 
         public override void Install()

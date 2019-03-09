@@ -1,4 +1,15 @@
-﻿@*@model Nop.Plugin.Widgets.NivoSlider.Models.PublicInfoModel
+﻿
+
+@{
+    Layout = "";
+
+    //Html.AddScriptParts(ResourceLocation.Footer, "~/Plugins/Widgets.NivoSlider/Scripts/jquery.nivo.slider.js");
+    //Html.AddCssFileParts("~/Plugins/Holibear.Widget.AcceptRejectSubmit/Content/AcceptRejectOrderButton.css");
+    //Html.AddCssFileParts("~/Plugins/Widgets.NivoSlider/Content/nivoslider/themes/custom/custom.css");
+}
+@*@model Nop.Plugin.Widgets.NivoSlider.Models.PublicInfoModel
+
+
 
     @{
         var pictureUrl = ViewData["pictureUrl"]?.ToString() ?? "";
@@ -31,4 +42,64 @@
     @using Nop.Web.Framework.Extensions
     @using System.Text.Encodings.Web*@
 
-hihi
+<script>
+
+
+    $(document).ready(
+        function () {
+
+            $('#AcceptButton').click(function () {
+
+                let path = window.location.href;
+                let id = path.split('/')[path.split('/').length - 1];
+                let orderStatus = { "OrderId": id, "OrderStatus": "Complete", "OrderComment": "" }
+
+                $.ajax({
+                    url: "http://localhost:15536/WidgetsAcceptRejectButton/OrderStatusUpdate",
+                    contentType: 'application/json; charset=UTF-8',
+                    dataType: "json",
+                    data: { orderStatus: JSON.stringify(orderStatus) }
+                }).done(function () {
+                    window.location.href = "/";
+                });
+            });
+
+            $('#RejectButton').click(function () {
+
+                $('.rejectComment').show();
+
+
+            });
+
+            $('#RejectButtonSend').click(function () {
+
+                let path = window.location.href;
+                let id = path.split('/')[path.split('/').length - 1];
+                let orderStatus = {
+                    "OrderId": id, "OrderStatus": "NotComplete", "OrderComment": $('#rejectComment').val()
+                }
+
+                $.ajax({
+                    url: "http://localhost:15536/WidgetsAcceptRejectButton/OrderStatusUpdate",
+                    contentType: 'application/json; charset=UTF-8',
+                    dataType: "json",
+                    data: { orderStatus: JSON.stringify(orderStatus) }
+                }).done(function () {
+                    alert('We will complete the order as soon as possible');
+                    window.location.href = "/";
+                });
+            });
+        }
+    );
+</script>
+
+<div class="AcceptRejectWidget">
+    <div class="acceptRejectButtonGroup">
+        <button id="AcceptButton" class="AcceptRejectButton">Accept</button>
+        <button id="RejectButton" class="AcceptRejectButton">Reject</button>
+    </div>
+    <div class="rejectComment">
+        <textarea name="rejectComment" cols="40" rows="5" type="text" id="rejectComment"></textarea>
+        <button id="RejectButtonSend" class="AcceptRejectButton">Reject Comment Submit</button>
+    </div>
+</div>
