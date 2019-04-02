@@ -62,45 +62,58 @@
     var themeVariant = settingService.GetSettingByKey("elementthemesettings.variant", "variant-1", storeId, true);
 
     var currentPageClass = (await Html.PartialAsync("_CurrentPageClass")).ToHtmlString().Trim();
-    
+
     //event
     eventPublisher.Publish(new PageRenderingEvent(this.Html));
+    Html.AddCssFileParts("~/Plugins/Holibear.Widget.AcceptRejectSubmit/Content/AcceptRejectOrderButton.css");
 }
 <!DOCTYPE html>
 <html lang="@languageService.GetTwoLetterIsoLanguageName(workContext.WorkingLanguage)" @(this.ShouldUseRtlTheme() ? Html.Raw(" dir=\"rtl\"") : null) @Html.NopPageCssClasses()>
-    <head>
-        <title>@Html.NopTitle()</title>
-        <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
-        <meta name="description" content="@(Html.NopMetaDescription())" />
-        <meta name="keywords" content="@(Html.NopMetaKeywords())" />
-        <meta name="generator" content="nopCommerce" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
-        <link href='https://fonts.googleapis.com/css?family=Raleway:500' rel='stylesheet' type='text/css'>
-        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-        <link href="https://fonts.googleapis.com/css?family=Oswald:400,300,700&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-        @Html.NopHeadCustom()
-        @*This is used so that themes can inject content into the header*@
-        @await Html.PartialAsync("Head")
-    	@await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.HeadHtmlTag })
-        @await Component.InvokeAsync("Widget", new { widgetZone = "head_html_tag_after_css_files_element" })
-        @Html.NopCssFiles(this.Url, ResourceLocation.Head)
-        @Html.NopScripts(this.Url, ResourceLocation.Head)
-        @Html.NopCanonicalUrls()
-        @await Component.InvokeAsync("NewsRssHeaderLink")
-        @await Component.InvokeAsync("BlogRssHeaderLink")
-        @*Favicon - upload favicon.ico file to the root directory*@
-        @await Component.InvokeAsync("Favicon")
-        @if (displayMiniProfiler)
-        {
-            <mini-profiler />
-        }
-        @Html.NopInlineScripts(this.Url, ResourceLocation.Head)
-        <!--Powered by nopCommerce - https://www.nopCommerce.com-->
-    </head>
+<head>
+    <!-- Google Tag Manager -->
+    <script>
+        (function (w, d, s, l, i) {
+        w[l] = w[l] || []; w[l].push({
+            'gtm.start':
+                new Date().getTime(), event: 'gtm.js'
+        }); var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-KXVKDRM');</script>
+    <!-- End Google Tag Manager -->
+    <title>@Html.NopTitle()</title>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+    <meta name="description" content="@(Html.NopMetaDescription())" />
+    <meta name="keywords" content="@(Html.NopMetaKeywords())" />
+    <meta name="generator" content="nopCommerce" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
+    <link href='https://fonts.googleapis.com/css?family=Raleway:500' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Oswald:400,300,700&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    @Html.NopHeadCustom()
+    @*This is used so that themes can inject content into the header*@
+    @await Html.PartialAsync("Head")
+    @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.HeadHtmlTag })
+    @await Component.InvokeAsync("Widget", new { widgetZone = "head_html_tag_after_css_files_element" })
+    @Html.NopCssFiles(this.Url, ResourceLocation.Head)
+    @Html.NopScripts(this.Url, ResourceLocation.Head)
+    @Html.NopCanonicalUrls()
+    @await Component.InvokeAsync("NewsRssHeaderLink")
+    @await Component.InvokeAsync("BlogRssHeaderLink")
+    @*Favicon - upload favicon.ico file to the root directory*@
+    @await Component.InvokeAsync("Favicon")
+    @if (displayMiniProfiler)
+    {
+        <mini-profiler />
+    }
+    @Html.NopInlineScripts(this.Url, ResourceLocation.Head)
+    <!--Powered by nopCommerce - https://www.nopCommerce.com-->
+
+</head>
     <body class="@isAndroid23Class @currentPageClass @themeLayout @themeVariant">
         <!-- Google Tag Manager (noscript) -->
         <noscript>
-            <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NWKW8N5"
+            <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KXVKDRM"
                     height="0" width="0" style="display:none;visibility:hidden"></iframe>
         </noscript>
         <!-- End Google Tag Manager (noscript) -->

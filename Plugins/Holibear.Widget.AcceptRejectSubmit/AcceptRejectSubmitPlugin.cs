@@ -1,4 +1,5 @@
-﻿using Nop.Core.Plugins;
+﻿using Holibear.Widget.AcceptRejectSubmit.Data;
+using Nop.Core.Plugins;
 using Nop.Services.Cms;
 using Nop.Services.Logging;
 using Nop.Web.Framework.Infrastructure;
@@ -11,9 +12,12 @@ namespace Holibear.Widget.AcceptRejectSubmit
     public class AcceptRejectSubmitPlugin : BasePlugin, IWidgetPlugin
     {
         private readonly ILogger _logger;
-        public AcceptRejectSubmitPlugin(ILogger logger)
+        private AcceptRejectStatusObjectContext _acceptRejectStatusObjectContext;
+
+        public AcceptRejectSubmitPlugin(ILogger logger , AcceptRejectStatusObjectContext acceptRejectStatusObjectContext)
         {
             this._logger = logger;
+            this._acceptRejectStatusObjectContext = acceptRejectStatusObjectContext;
         }
 
         public string GetWidgetViewComponentName(string widgetZone)
@@ -28,6 +32,7 @@ namespace Holibear.Widget.AcceptRejectSubmit
 
         public override void Install()
         {
+            _acceptRejectStatusObjectContext.Install();
             _logger.Information("Install Plugin Succeed");
             base.Install();
         }

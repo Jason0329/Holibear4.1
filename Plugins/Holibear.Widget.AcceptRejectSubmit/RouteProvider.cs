@@ -13,6 +13,8 @@ namespace Holibear.Widget.AcceptRejectSubmit
         {
             routeBuilder.MapRoute("Holibear.Widget.AcceptRejectSubmit", "Holibear/Widget/AcceptRejectSubmit",
             new { controller = "WidgetsAcceptRejectButton", action = "OrderStatusUpdate" });
+
+            //ViewEngines.Engines.Insert(0, new CustomViewEngine());
         }
         public int Priority
         {

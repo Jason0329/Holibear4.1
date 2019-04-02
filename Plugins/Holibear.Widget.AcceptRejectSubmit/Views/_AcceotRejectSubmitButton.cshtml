@@ -1,4 +1,4 @@
-﻿
+﻿@model int
 
 @{
     Layout = "";
@@ -42,6 +42,10 @@
     @using Nop.Web.Framework.Extensions
     @using System.Text.Encodings.Web*@
 
+@if (Model == 0)
+{ }
+else
+{
 <script>
 
 
@@ -55,7 +59,7 @@
                 let orderStatus = { "OrderId": id, "OrderStatus": "Complete", "OrderComment": "" }
 
                 $.ajax({
-                    url: "http://localhost:15536/WidgetsAcceptRejectButton/OrderStatusUpdate",
+                    url: "/WidgetsAcceptRejectButton/OrderStatusUpdate",
                     contentType: 'application/json; charset=UTF-8',
                     dataType: "json",
                     data: { orderStatus: JSON.stringify(orderStatus) }
@@ -80,7 +84,7 @@
                 }
 
                 $.ajax({
-                    url: "http://localhost:15536/WidgetsAcceptRejectButton/OrderStatusUpdate",
+                    url: "/WidgetsAcceptRejectButton/OrderStatusUpdate",
                     contentType: 'application/json; charset=UTF-8',
                     dataType: "json",
                     data: { orderStatus: JSON.stringify(orderStatus) }
@@ -95,6 +99,7 @@
 
 <div class="AcceptRejectWidget">
     <div class="acceptRejectButtonGroup">
+        <div>Numbers of Edits : @Model</div>
         <button id="AcceptButton" class="AcceptRejectButton">Accept</button>
         <button id="RejectButton" class="AcceptRejectButton">Reject</button>
     </div>
@@ -103,3 +108,4 @@
         <button id="RejectButtonSend" class="AcceptRejectButton">Reject Comment Submit</button>
     </div>
 </div>
+}
